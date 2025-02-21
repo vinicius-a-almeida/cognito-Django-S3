@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso ao S3</title>
+</head>
+<body>
+    <h1>Autenticação e Acesso ao S3</h1>
+    <form id="authForm">
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Autenticar e Carregar Imagem</button>
+    </form>
+
+    <div id="imageContainer" style="margin-top: 20px;">
+        <img id="s3Image" style="max-width: 100%; display: none;">
+    </div>
+
+    <script>
+        document.getElementById('authForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // Enviar credenciais para o backend
+                const response = await fetch('http://localhost:8000/api/get-signed-url/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // Exibir a imagem usando o URL assinado
+                    const imageElement = document.getElementById('s3Image');
+                    imageElement.src = data.signedUrl;
+                    imageElement.style.display = 'block';
+                } else {
+                    alert('Erro: ' + data.message);
+                }
+            } catch (error) {
+                alert('Erro ao autenticar: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
