@@ -4,7 +4,6 @@ if [ -d "env" ]
 then
     echo "Python virtual environment exists." 
 else
-    sudo apt install python3.12-venv
     python3 -m venv env
 fi
 
