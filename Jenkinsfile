@@ -1,6 +1,11 @@
 pipeline{
     agent any
     stages{
+        stage('Checkout'){
+            steps{
+                git branch: 'master', credentialsId: 'ghp_fopco9myzw0gbkf1nwidt4emlsfkss4ycps3', url: 'https://gitlab.com/your-repo.git'
+            }
+        }
         stage('Setup Python Virtual Environment'){
             steps{
                 sh '''
