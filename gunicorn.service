@@ -7,7 +7,7 @@ After=network.target
 User=root
 Group=www-data
 WorkingDirectory=/var/lib/jenkins/workspace/django-cicd/s3_cognito_example
-ExecStart=/var/lib/jenkins/workspace/django-cicd/env/bin/gunicorn --workers 3 --log-level debug --error-logfile /var/lib/jenkins/workspace/django-cicd/error.log --bind unix:/run/gunicorn.sock app.wsgi:application
+ExecStart=/var/lib/jenkins/workspace/django-cicd/env/bin/gunicorn --workers 3 --log-level debug --error-logfile /var/lib/jenkins/workspace/django-cicd/error.log --bind unix:/run/gunicorn.sock s3_cognito_example.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
